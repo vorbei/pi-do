@@ -1,0 +1,7 @@
+# Copy to .dev.vars (gitignored) for `npm run dev`. Placeholders only; never commit real values.
+# Production values are set with `npx wrangler secret put <NAME>` instead.
+OPENROUTER_API_KEY=replace-with-your-openrouter-key
+BOOTSTRAP_SECRET=replace-with-a-long-random-string
+# Optional overrides (defaults live in src/config.ts):
+# MODEL_NAME=deepseek/deepseek-v4.1-flash
+# MODEL_BASE_URL=https://openrouter.ai/api/v1

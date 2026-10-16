@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Smoke fixture</title></head>
+<body>
+  <h1>Smoke fixture</h1>
+  <p id="count">Count: 0</p>
+  <button id="increment" type="button">Increment</button>
+  <form id="message-form" onsubmit="event.preventDefault(); document.getElementById('sent').textContent = 'Message sent';">
+    <label>Message <input id="message" name="message" value="hello"></label>
+    <button type="submit">Send message</button>
+  </form>
+  <p id="sent">Not sent</p>
+  <script>
+    let count = 0;
+    document.getElementById("increment").onclick = () => { count += 1; document.getElementById("count").textContent = `Count: ${count}`; };
+  </script>
+</body>
+</html>

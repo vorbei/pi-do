@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Widget</title></head>
+<body>
+  <!-- A button in a closed shadow root, and a nested (same-site, so same-process) iframe with a text field. -->
+  <div id="host"></div>
+  <p id="shadow-status">Shadow waiting</p>
+  <div id="script-card">Script card</div>
+  <iframe title="Nested login" src="/frame-nested.html" width="380" height="90"></iframe>
+  <script>
+    const root = document.getElementById("host").attachShadow({ mode: "closed" });
+    root.innerHTML = "<button type='button'>Shadow click</button>";
+    root.querySelector("button").onclick = () => { document.getElementById("shadow-status").textContent = "Shadow clicked"; };
+    document.getElementById("script-card").onclick = () => { document.getElementById("shadow-status").textContent += " / Script card clicked"; };
+  </script>
+</body>
+</html>

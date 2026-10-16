@@ -1,0 +1,47 @@
+{
+  "name": "pi-do-browser-ext",
+  "version": "0.1.11",
+  "description": "Chrome side-panel browser agent whose agent loop runs on Pi inside a Cloudflare Durable Object",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.worker.json && tsc -p tsconfig.ext.json && tsc -p tsconfig.json",
+    "test": "vitest run",
+    "wrangler:config": "node scripts/wrangler-config.ts",
+    "build:extension": "node scripts/build-extension.ts",
+    "build:worker": "wrangler deploy --dry-run --outdir dist/worker",
+    "worker:size": "rm -rf dist/worker && npm run build:worker && node node_modules/agent-core/tools/worker-size.js dist/worker --max-gzip-kib 800",
+    "dev": "wrangler dev",
+    "check:secrets": "node scripts/check-secrets.ts",
+    "deploy": "scripts/deploy.sh",
+    "smoke:chrome": "node scripts/smoke-chrome.ts",
+    "check": "npm run typecheck && npm test && node scripts/wrangler-config.ts --check && npm run build:extension && npm run worker:size"
+  },
+  "dependencies": {
+    "@earendil-works/pi-ai": "0.84.4",
+    "@earendil-works/pi-coding-agent": "0.84.4",
+    "@mozilla/readability": "0.6.0",
+    "agent-core": "file:../agent-core",
+    "just-bash": "3.6.0",
+    "linkedom": "0.18.13",
+    "marked": "17.0.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "typebox": "1.3.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261008.1",
+    "@types/chrome": "0.3.4",
+    "@types/node": "26.6.4",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3",
+    "wrangler": "4.148.0"
+  }
+}

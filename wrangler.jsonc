@@ -1,0 +1,69 @@
+// Generated from src/config.ts by scripts/wrangler-config.ts. Do not edit by hand.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pi-do-browser-ext",
+  "main": ".wrangler/pi/worker.mjs",
+  "base_dir": ".wrangler/pi",
+  "find_additional_modules": true,
+  "preserve_file_names": true,
+  "minify": true,
+  "alias": {
+    "@earendil-works/pi-coding-agent": "./.wrangler/pi/node_modules/@earendil-works/pi-coding-agent/dist/index.js",
+    "typebox/system": "./.wrangler/pi/node_modules/@earendil-works/pi-coding-agent/node_modules/typebox/build/system/index.mjs",
+    "@earendil-works/pi-ai": "./.wrangler/pi/node_modules/@earendil-works/pi-coding-agent/node_modules/@earendil-works/pi-ai/dist/index.js",
+    "@earendil-works/pi-ai/api/openai-completions": "./.wrangler/pi/node_modules/@earendil-works/pi-coding-agent/node_modules/@earendil-works/pi-ai/dist/api/openai-completions.js"
+  },
+  "rules": [
+    {
+      "type": "Text",
+      "globs": [
+        "**/pi-coding-agent/package.json",
+        "**/pi-coding-agent/README.md",
+        "**/pi-coding-agent/docs/sdk.md",
+        "**/pi-coding-agent/docs/extensions.md",
+        "**/pi-coding-agent/dist/modes/interactive/theme/dark.json",
+        "**/pi-coding-agent/dist/modes/interactive/theme/light.json"
+      ],
+      "fallthrough": false
+    }
+  ],
+  "build": {
+    "command": "node scripts/prepare-pi.ts && node scripts/build-sandbox.ts",
+    "watch_dir": [
+      "src"
+    ]
+  },
+  "assets": {
+    "directory": "./dist/sandbox"
+  },
+  "compatibility_date": "2026-09-05",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "WORKER_VERSION": "0.1.11"
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ACCOUNTS",
+        "class_name": "AccountDO"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "AccountDO"
+      ]
+    }
+  ],
+  "ai": {
+    "binding": "AI"
+  }
+}

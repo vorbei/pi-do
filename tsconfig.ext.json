@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": [
+      "ES2023",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [
+      "chrome",
+      "react",
+      "react-dom"
+    ],
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src/config.ts",
+    "src/shared/**/*.ts",
+    "src/browser/**/*.ts",
+    "src/ext/**/*.ts",
+    "src/ext/**/*.tsx"
+  ]
+}

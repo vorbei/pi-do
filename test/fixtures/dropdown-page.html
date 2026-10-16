@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><title>Dropdown fixture</title>
+  <!-- A custom dropdown whose trigger is a plain div with cursor:pointer (no role, no tabindex),
+       shaped like the stagehand-eval-sites expand-dropdown page. -->
+  <style>
+    .dropdown { position: relative; width: 240px; cursor: pointer; user-select: none; }
+    .dropdown__label { padding: .5rem; border: 1px solid #999; }
+    .dropdown__list { position: absolute; top: 100%; left: 0; right: 0; display: none; list-style: none; margin: 0; padding: 0; background: #fff; border: 1px solid #999; }
+    .dropdown.open .dropdown__list { display: block; }
+    .dropdown__item { padding: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>Dropdown fixture</h1>
+  <div id="dropdown" class="dropdown">
+    <div id="label" class="dropdown__label">Select a country</div>
+    <ul class="dropdown__list" role="listbox">
+      <li class="dropdown__item" role="option">United States</li>
+      <li class="dropdown__item" role="option">Canada</li>
+    </ul>
+  </div>
+  <label>Size <select id="size"><option value="s">Small</option><option value="l">Large</option></select></label>
+  <p id="chosen">Nothing chosen</p>
+  <p id="size-status">Size unset</p>
+  <script>
+    document.getElementById("size").addEventListener("change", event => { document.getElementById("size-status").textContent = `Size ${event.target.value}`; });
+    const dropdown = document.getElementById("dropdown");
+    document.getElementById("label").addEventListener("click", () => dropdown.classList.toggle("open"));
+    for (const item of document.querySelectorAll(".dropdown__item")) {
+      item.addEventListener("click", () => {
+        document.getElementById("label").textContent = item.textContent;
+        document.getElementById("chosen").textContent = `Chosen: ${item.textContent}`;
+        dropdown.classList.remove("open");
+      });
+    }
+  </script>
+</body>
+</html>

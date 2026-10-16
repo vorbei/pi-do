@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- X's List members modal (structure read from x.com on 2026-10-10): the root is scroll-locked
+     while the modal is open, the timeline behind it is tall, #layers holds pointer-events:none
+     wrappers, a zero-height [role=dialog], and the aria-modal dialog whose inner div scrolls.
+     Inside that list, as on x.com: a sticky header at its top edge, and a timeline whose cells
+     take no pointer events while the list scrolls (X sets pointer-events:none on them until about
+     150 ms after the last scroll). Each member's Remove button turns into Add when clicked.
+     ?under=N scrolls the list so member N's button sits under the sticky header. -->
+<html style="overflow:hidden">
+<head><meta charset="utf-8"><title>List members</title></head>
+<body style="margin:0;font:14px sans-serif">
+<div id="react-root">
+  <main id="timeline"></main>
+  <div id="layers" style="position:absolute;top:0;left:0;width:100%;height:0;z-index:1">
+    <div style="pointer-events:none;position:relative">
+      <div style="pointer-events:none;position:fixed;top:0;left:0;width:100%;height:0">
+        <div role="dialog" style="pointer-events:auto;position:relative;height:0">
+          <div role="group" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.4)">
+            <div role="dialog" aria-modal="true" aria-labelledby="members-title" style="width:420px;height:400px;overflow:hidden;background:#fff;display:flex;flex-direction:column">
+              <h2 id="members-title" style="margin:0;padding:12px">List members</h2>
+              <p id="removed" style="margin:0 12px">Removed: none</p>
+              <div style="flex:1;min-height:0;overflow:hidden;display:flex">
+                <div id="members" style="flex:1;overflow-y:auto;position:relative">
+                  <div id="tabs" style="position:sticky;top:0;z-index:2;height:53px;line-height:53px;padding:0 12px;background:#fff;border-bottom:1px solid #ccc">Members</div>
+                  <div aria-label="Timeline: List members"><div id="cells" style="position:relative"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const timeline = document.getElementById("timeline");
+  for (let i = 1; i <= 60; i++) timeline.insertAdjacentHTML("beforeend", `<article style="height:300px;border-bottom:1px solid #ccc">Post ${i}</article>`);
+  const members = document.getElementById("members"), cells = document.getElementById("cells");
+  for (let i = 1; i <= 40; i++) cells.insertAdjacentHTML("beforeend", `<div data-testid="UserCell" style="height:72px;padding:8px;box-sizing:border-box;border-bottom:1px solid #eee">Member ${i} <button aria-label="Remove Member ${i}" data-member="${i}">Remove</button></div>`);
+  const removed = [];
+  cells.addEventListener("click", event => {
+    const button = event.target.closest("button");
+    if (!button || button.textContent !== "Remove") return;
+    button.textContent = "Add";
+    removed.push(Number(button.dataset.member));
+    document.getElementById("removed").textContent = `Removed: ${removed.join(", ")}`;
+  });
+  let idle;
+  members.addEventListener("scroll", () => {
+    cells.style.pointerEvents = "none";
+    clearTimeout(idle);
+    idle = setTimeout(() => { cells.style.pointerEvents = ""; }, 150);
+  });
+  const under = Number(new URLSearchParams(location.search).get("under"));
+  // The row's top 20 px below the list's top edge: its button is under the 54 px sticky header.
+  if (under) members.scrollTop = cells.children[under - 1].getBoundingClientRect().top - members.getBoundingClientRect().top - 20;
+</script>
+</body>
+</html>

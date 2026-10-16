@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Frames fixture</title></head>
+<body>
+  <!-- Served from 127.0.0.1; {{OTHER_ORIGIN}} is http://localhost:<second port>, another site, so its frame is cross-process. -->
+  <h1>Frames fixture</h1>
+  <!-- A button under a fixed banner: a click on it must be reported, not land on the banner. -->
+  <div style="position: relative; height: 60px">
+    <button type="button" id="covered" onclick="document.title = 'Covered clicked'">Covered button</button>
+    <div role="dialog" aria-label="Cookie banner" style="position: absolute; inset: 0; background: #eee">Accept cookies</div>
+  </div>
+  <iframe title="Same-origin form" src="/frame-inner.html" width="420" height="140"></iframe>
+  <div style="height: 900px"></div>
+  <iframe title="Cross-site widget" src="{{OTHER_ORIGIN}}/frame-oopif.html" width="420" height="260"></iframe>
+</body>
+</html>

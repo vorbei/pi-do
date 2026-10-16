@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Inner</title></head>
+<body>
+  <label>First name <input id="first" name="first"></label>
+  <p id="inner-status">Inner untouched</p>
+  <!-- Clickable only through a handler a script assigns: no cursor, no tabindex, no onclick attribute. -->
+  <div id="inner-card">Inner card</div>
+  <script>
+    document.getElementById("inner-card").onclick = () => { document.getElementById("inner-status").textContent += " / Inner card clicked"; };
+    document.getElementById("first").oninput = event => { document.getElementById("inner-status").textContent = `Inner typed ${event.target.value}`; };
+  </script>
+</body>
+</html>

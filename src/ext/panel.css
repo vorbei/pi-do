@@ -1,0 +1,71 @@
+/* pi-do's side panel around agent-core's chat (chat.css) and panel shell (chat-panel.css), both
+   loaded first: the page, the header status, the Settings view with the Memory view, the
+   confirmation card, the tab picker and the memory switch. Colors and sizes are the --chat-*
+   tokens, so the panel follows the same light and dark palette. */
+:root { color-scheme: light dark; }
+html, body, #panel { height: 100%; }
+body { margin: 0; overflow: hidden; background: var(--chat-paper); }
+.panel-status { min-width: 0; overflow: hidden; color: var(--chat-muted); font-size: var(--chat-text-xs); text-overflow: ellipsis; white-space: nowrap; }
+.hint { margin: 4px 0; color: var(--chat-muted); font-size: var(--chat-text-sm); overflow-wrap: anywhere; }
+.row { display: flex; gap: 6px; align-items: center; margin-top: 6px; }
+#panel .button { min-height: 32px; padding: 0 16px; border: 0; border-radius: 16px; color: var(--chat-ink); background: var(--chat-surface-high); font-size: var(--chat-text-md); font-weight: 500; }
+#panel .button:hover:not(:disabled) { background: color-mix(in srgb, var(--chat-ink) 8%, var(--chat-surface-high)); }
+#panel .button.primary { color: var(--chat-on-accent); background: var(--chat-accent); }
+#panel .button.primary:hover:not(:disabled) { background: color-mix(in srgb, var(--chat-on-accent) 8%, var(--chat-accent)); }
+
+/* Settings: the view under the header, scrolled on its own. Three levels, as in the Routine
+   editor: section headings, regular row labels, short muted hints under the control; sections are
+   divided by lines. */
+.settings-view { padding: 0 20px 24px; overflow: auto; }
+.settings-head { min-height: 60px; padding-top: 8px; display: flex; align-items: center; }
+.settings-head h2 { margin: 0; font-size: var(--chat-text-title); font-weight: 500; }
+.settings-section { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--chat-line); }
+.settings-section:first-of-type { margin-top: 4px; padding-top: 0; border-top: 0; }
+.settings-label { margin: 0 0 4px; color: var(--chat-ink); font-size: var(--chat-text-md); font-weight: 500; line-height: 1.4; }
+.settings-row { min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.settings-row-text { min-width: 0; display: grid; gap: 2px; }
+.settings-row-label { overflow: hidden; color: var(--chat-ink); font-size: var(--chat-text-lg); font-weight: 400; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
+.settings-row-text small, .settings-hint { color: var(--chat-muted); font-size: var(--chat-text-sm); line-height: 1.4; overflow-wrap: anywhere; }
+.settings-hint { margin: 2px 0 0; }
+.settings-hint.is-error { color: var(--chat-danger); }
+.settings-row > .button { flex: 0 0 auto; }
+.settings-view select { flex: 0 0 auto; max-width: 160px; height: 32px; padding: 0 8px; border: 1px solid var(--chat-outline); border-radius: 8px; color: inherit; background: var(--chat-paper); font: inherit; font-size: var(--chat-text-sm); }
+.settings-form { display: grid; gap: 4px; }
+.settings-form > .button { justify-self: start; margin-top: 10px; }
+.settings-field { margin-top: 8px; display: grid; gap: 6px; color: var(--chat-ink); font-size: var(--chat-text-lg); }
+.settings-view input:not([type="checkbox"]):not([type="radio"]) { width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--chat-outline); border-radius: 8px; color: inherit; background: var(--chat-paper); font-size: var(--chat-text-md); }
+
+/* Saved memories: one row each, the text over its kind and state, the actions at the right. */
+.memory-list { margin: 8px 0 0; padding: 0; list-style: none; }
+.memory-list li { padding: 10px 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.memory-list li + li { border-top: 1px solid var(--chat-line); }
+.memory-text { min-width: 0; display: grid; gap: 3px; }
+.memory-text p { margin: 0; font-size: var(--chat-text-md); line-height: 1.45; overflow-wrap: anywhere; }
+.memory-text small { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--chat-muted); font-size: var(--chat-text-xs); }
+.memory-tag { padding: 1px 6px; border-radius: 6px; background: var(--chat-surface-high); font-weight: 500; }
+.memory-list li.pending .memory-text small { color: var(--chat-ink); }
+.memory-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 2px; }
+#panel .icon-button { width: 32px; height: 32px; padding: 0; display: grid; place-items: center; border: 0; border-radius: 50%; color: var(--chat-muted); background: transparent; }
+#panel .icon-button:hover { color: var(--chat-ink); background: var(--chat-hover); }
+.icon-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* The confirmation card: above the composer, while the agent waits for the user's approval; a
+   white card on a surface, as the pending actions in X Gardener. */
+.confirm { margin: 0 12px 8px; padding: 12px 14px; border-radius: 16px; background: var(--chat-surface); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--chat-warning) 40%, transparent); }
+.confirm p { margin: 2px 0; font-size: var(--chat-text-md); overflow-wrap: anywhere; }
+
+/* The tab picker: just above the composer; its menu (the shell's popover) opens upward. */
+.tab-picker { position: relative; min-width: 0; margin: 0 14px 4px; }
+.tab-picker > .tab-picker-trigger { max-width: 100%; min-height: 26px; padding: 2px 8px; display: inline-flex; align-items: center; gap: 5px; border: 0; border-radius: 999px; color: var(--chat-muted); background: transparent; font-size: var(--chat-text-xs); }
+.tab-picker-trigger:hover, .tab-picker-trigger[aria-expanded="true"] { color: var(--chat-ink); background: var(--chat-hover); }
+.tab-picker-trigger > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tab-picker-trigger svg { flex: 0 0 auto; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tab-picker-menu { top: auto; bottom: calc(100% + 4px); z-index: 9; width: min(300px, calc(100vw - 28px)); max-height: min(360px, 60vh); overflow: auto; }
+.tab-picker-menu > button strong { font-weight: 500; }
+.tab-picker-menu > button strong, .tab-picker-menu > button small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tab-picker-menu > button > span:last-child { min-width: 0; }
+.tab-picker-menu .chat-panel-menu-icon svg { width: 14px; height: 14px; stroke-width: 2; }
+
+/* The memory switch in Settings: the row's text at the left, the switch (the shell's) at the right. */
+.setting-row { position: relative; min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; }
+.setting-row input { position: absolute; opacity: 0; pointer-events: none; }
